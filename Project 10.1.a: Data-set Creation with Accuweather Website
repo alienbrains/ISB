@@ -1,0 +1,50 @@
+from selenium import webdriver
+import pandas as pd
+
+cd='C:\\webdrivers\\chromedriver.exe'
+
+
+month=input('Enter the month in small letters : ')
+year=input('Enter the year : ')
+
+chrome_browser = webdriver.Chrome(cd)
+chrome_browser.get('https://www.accuweather.com/en/in/kolkata/206690/'+month+'-weather/206690?year=2020&view=list')
+#for mumbai
+#chrome_browser.get('https://www.accuweather.com/en/in/mumbai/204842/'+month+'-weather/204842?year='+year+'&view=list')
+
+data=chrome_browser.find_elements_by_class_name("high")
+temp_high=[]
+for i in data:
+    t=i.get_attribute('textContent')
+    #print(t[:2])
+    temp_high.append(int(t[:2]))
+
+
+data=chrome_browser.find_elements_by_class_name("low")#Temp low
+temp_low=[]
+for i in data:
+    t=i.get_attribute('textContent')
+    temp_low.append(int(t[3:5]))
+
+
+
+data3=chrome_browser.find_elements_by_xpath("//div[@class='info precip']/p[2]") #Precipitation
+precip=[]
+
+
+for i in data3:
+    t=i.get_attribute('textContent')
+    precip.append(float(t[:2]))
+
+
+date=[]
+for i in range(len(precip)):
+    date.append(i+1)
+
+
+d={"Date":date,"High_temp":temp_high, "Low_temp":temp_low, "Precipitation": precip}
+
+df=pd.DataFrame(d)
+df.to_csv("C:\\Users\\Sweta\\kolkata+"+month+".csv")#replpace kolkata with mumbai for the 2nd dataset
+
+print("DONE")
