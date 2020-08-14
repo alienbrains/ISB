@@ -1,0 +1,50 @@
+from selenium import webdriver
+import smtplib
+import schedule
+cd='C:\\webdrivers\\chromedriver.exe'
+
+browser=webdriver.Chrome(cd)
+
+def get_price():
+	browser.get('https://www.amazon.in/HP-Processor-15-6-inch-i5-10300H-15-ek0017TX/dp/B08CGMGQ3P/ref=sr_1_7?dchild=1&keywords=hp+omen&qid=1597230086&s=computers&sr=1-7')
+	pe=browser.find_element_by_id('priceblock_ourprice')
+	pr=pe.get_attribute('textContent')
+	pr=pr[2:]
+	pl=pr.split(',')
+
+	price_a=''
+	for i in pl:
+		price_a+=i
+
+	price_a=float(price_a)
+	return price_a
+def mail():
+	s=smtplib.SMTP('smtp.gmail.com' , 587)
+	s.starttls()
+	#change this else code will not work
+	ml='sender@gmail.com'
+	#change this else code will not work
+	pw='senderPassword'
+	s.login(ml,pw)
+	#change this else code will not work
+	mt='target@gmail.com'
+	message='Hurry Up. the price is low now. Grab the deal.'
+	s.sendmail(ml, mt, message)
+	s.quit()
+
+
+
+def task():
+	p=190000.00
+	a=get_price()
+
+	if(a<=p):
+		mail()
+		print("MAILED")
+	else:
+		print("Don't Buy")
+
+schedule.every(10).seconds.do(task)
+print("Getting inside the while loop.")
+while True:
+	schedule.run_pending()
