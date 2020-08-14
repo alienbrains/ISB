@@ -1,0 +1,50 @@
+import time
+from selenium import webdriver
+from bs4 import BeautifulSoup
+import pandas as pd
+cd="C:\\webdrivers\\chromedriver.exe"
+browser=webdriver.Chrome(cd)
+
+browser.get('https://www.linkedin.com/mynetwork/invite-connect/connections/')
+
+si=browser.find_element_by_xpath('//a[@class="main__sign-in-link"]')
+si.click()
+time.sleep(20)
+em='abc@gmail.com' #Change this
+pw='abc'  #Change this
+email=browser.find_element_by_xpath('//input[@id="username"]')
+email.send_keys(em)
+pwd=browser.find_element_by_xpath('//input[@id="password"]')
+pwd.send_keys(pw)
+btn=browser.find_element_by_xpath('//button[@class="btn__primary--large from__button--floating"]')
+btn.click()
+
+pg=browser.page_source
+soup=BeautifulSoup(pg,'html.parser')
+de=soup.findAll('div',{'class':"mn-connection-card__details"})
+conn=[]
+for i in de:
+	k=i.find('a')
+	u=k.get('href')
+	conn.append(u)
+c_n=[]
+c_p=[]
+c_c=[]
+
+for i in conn:
+	url="https://www.linkedin.com/"+i
+	browser.get(url)
+	ne=browser.find_element_by_xpath('//div[@class="flex-1 mr5"]/ul[1]/li[1]')
+	name=ne.text
+	c_n.append(name)
+	cpe=browser.find_element_by_xpath('//div[@class="flex-1 mr5"]/h2[1]')
+	cpos=cpe.text
+	c_p.append(cpos)
+	url2=url+'detail/contact-info/'
+	c_c.append(url2)
+
+dic={'Name':c_n,'Current Position':c_p, 'Contact Info': c_c}
+df=pd.DataFrame(dic)
+df.to_csv("C:\\Users\\Sweta\\LinkedIn connection.csv",index=False)
+
+print("DONE")
