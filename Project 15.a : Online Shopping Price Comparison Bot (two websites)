@@ -1,11 +1,13 @@
 from selenium import webdriver
 cd='C:\\webdrivers\\chromedriver.exe'
 
-browser=webdriver.Chrome(cd)
+browser=webdriver.Chrome(cd) #cd is the path to chromedriver.exe
 
 
 print("Checking on Amazon...........")
-browser.get('https://www.amazon.in/HP-Processor-15-6-inch-i5-10300H-15-ek0017TX/dp/B08CGMGQ3P/ref=sr_1_7?dchild=1&keywords=hp+omen&qid=1597230086&s=computers&sr=1-7')
+
+# give the product link on amazon
+browser.get('https://www.amazon.in/Test-Exclusive-750/dp/B078BN55WZ/ref=sr_1_1?crid=3OEL6DKYVV850&dchild=1&keywords=one%2Bpluse8%2Bpro%2Bmobile&qid=1597315955&sprefix=one%2Caps%2C290&sr=8-1&th=1')
 pe=browser.find_element_by_id('priceblock_ourprice')
 pr=pe.get_attribute('textContent')
 pr=pr[2:]
@@ -21,7 +23,9 @@ print("The price in Amazon is " + str(price_a))
 
 
 print("Checking on Flipkart...........")
-browser.get('https://www.flipkart.com/hp-omen-core-i5-7th-gen-8-gb-1-tb-hdd-128-gb-ssd-windows-10-home-6-graphics-nvidia-geforce-gtx-1060-15-ce073tx-gaming-laptop/p/itmf3s3fcqfg5tqv?pid=COMEX3U79BHAFW8Q&lid=LSTCOMEX3U79BHAFW8QLC1ZNR&marketplace=FLIPKART&srno=s_1_2&otracker=AS_Query_HistoryAutoSuggest_2_0&otracker1=AS_Query_HistoryAutoSuggest_2_0&fm=SEARCH&iid=f758a604-4533-478b-a6d6-5ec22b1cd762.COMEX3U79BHAFW8Q.SEARCH&ppt=sp&ppn=sp&ssid=2yygr8w3v40000001597230230766&qH=b9f91c04a3eae225')
+
+# give the product link on flipkart
+browser.get('https://www.flipkart.com/oneplus-8-pro-onyx-black-256-gb/p/itm4dcbd336cdd4f?pid=MOBFU897DEZ4SZ9X&lid=LSTMOBFU897DEZ4SZ9X3XJTWH&marketplace=FLIPKART&srno=s_1_1&otracker=search&otracker1=search&fm=SEARCH&iid=b0ba3921-ac6d-468a-8282-a92473384b97.MOBFU897DEZ4SZ9X.SEARCH&ppt=sp&ppn=sp&ssid=scq9tf7ek00000001597226823165&qH=5894ab4766000b8e')
 pe=browser.find_element_by_xpath('//div[@class="_1vC4OE _3qQ9m1"]')
 pr=pe.get_attribute('textContent')
 
