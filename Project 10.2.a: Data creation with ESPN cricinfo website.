@@ -36,7 +36,7 @@ for i in tr_list:
 		df=pd.DataFrame(columns= columns)
 		table_name=name[n]
 		n=n+1
-	df.to_csv('C:\\Users\\Sweta\\Cricinfo'+table_name+'.csv', index = False)
+		df.to_csv('C:\\Users\\Sweta\\Cricinfo'+table_name+'.csv', index = False)
 
 
 print("Done")
